@@ -61,7 +61,7 @@ namespace GameOfLife
             int xLimit = lifeMatrix.GetUpperBound(0);
             int yLimit = lifeMatrix.GetUpperBound(1);
 
-            for (int i = 0; i < iteration; i++)
+            for (int i = 0; i <= iteration; i++)
             {
 
                 for (int xctr = 0; xctr <= xLimit; xctr++)
