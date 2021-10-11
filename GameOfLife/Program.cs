@@ -46,7 +46,15 @@ namespace GameOfLife
             {
                 for (int j = 0; j <= results.GetUpperBound(1); j++)
                 {
-                    Console.Write(results[i, j] + " ");
+                    if (results[i, j] < 2 || results[i, j] >= 4)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                    Console.Write(results[i, j] + " ", Console.ForegroundColor);
                 }
                 Console.WriteLine();
             }
@@ -114,8 +122,15 @@ namespace GameOfLife
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Iteration: " + i);
                 Display(lifeMatrix);
+
                 LifePerIteration(lifeMatrix, nbMaxtrix);
+
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Neighbor count");
                 Display(nbMaxtrix);
+
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine("--------------------------------------------------------------------", Console.ForegroundColor);
             }
             return nbMaxtrix;
         }
