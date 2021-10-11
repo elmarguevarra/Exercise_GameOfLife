@@ -6,14 +6,16 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            var matrix = new bool[3, 3] { { false, true, false}, { false, false, true }, { false, true, false } };
-
-            //Display(matrix);
-
-            var iteration = 3;
-
-            var results = EvaluateGameOfLife(matrix, iteration);
-            //Display(results);
+            var lifeMatrix = new bool[6, 6] {
+                { false, true, false, true, false, false },
+                { false, false, true, true, false, false },
+                { false, true, false, true, false, false },
+                { false, true, false, true, false, false },
+                { false, true, false, true, false, false },
+                { false, false, false, false, false, false }
+            };
+            var iteration = 11;
+            var results = EvaluateGameOfLife(lifeMatrix, iteration);
         }
 
 
@@ -23,8 +25,15 @@ namespace GameOfLife
             {
                 for (int j = 0; j <= results.GetUpperBound(1); j++)
                 {
-                    //Console.Write(results[i, j] + " ");
-                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ");
+                    if (results[i, j])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ", Console.ForegroundColor);
                 }
                 Console.WriteLine();
             }
@@ -38,7 +47,6 @@ namespace GameOfLife
                 for (int j = 0; j <= results.GetUpperBound(1); j++)
                 {
                     Console.Write(results[i, j] + " ");
-                    //Console.Write(results[i, j] + "(" +i+","+j+")" + " ");
                 }
                 Console.WriteLine();
             }
@@ -48,13 +56,13 @@ namespace GameOfLife
 
         public static int[,] EvaluateGameOfLife(bool[,] lifeMatrix, int iteration)
         {
-            var nbMaxtrix = new int[3, 3];
+            var nbMaxtrix = new int[lifeMatrix.GetUpperBound(0) + 1, lifeMatrix.GetUpperBound(1) + 1];
+
+            int xLimit = lifeMatrix.GetUpperBound(0);
+            int yLimit = lifeMatrix.GetUpperBound(1);
 
             for (int i = 0; i < iteration; i++)
             {
-                int xLimit = lifeMatrix.GetUpperBound(0);
-                int yLimit = lifeMatrix.GetUpperBound(1);
-
 
                 for (int xctr = 0; xctr <= xLimit; xctr++)
                 {
@@ -103,8 +111,11 @@ namespace GameOfLife
                     }
                 }
 
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Iteration: " + i);
                 Display(lifeMatrix);
-                Display(LifePerIteration(lifeMatrix, nbMaxtrix));
+                LifePerIteration(lifeMatrix, nbMaxtrix);
+                Display(nbMaxtrix);
             }
             return nbMaxtrix;
         }
