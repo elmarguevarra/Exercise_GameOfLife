@@ -6,14 +6,14 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            var matrix = new bool[5, 3] {
-                { false, true, false },
-                { false, false, true },
-                { false, true, false },
-                { false, true, false },
-                { false, true, false }
+            var matrix = new bool[5, 5] {
+                { false, true, false, true, false },
+                { false, false, true, true, false },
+                { false, true, false, true, false },
+                { false, true, false, true, false },
+                { false, true, false, true, false }
             };
-            var iteration = 3;
+            var iteration = 11;
             var results = EvaluateGameOfLife(matrix, iteration);
         }
 
@@ -41,6 +41,8 @@ namespace GameOfLife
                     }
                 }
 
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Iteration: " + i);
                 Display(lifeMatrix);
                 LifePerIteration(lifeMatrix, nbMaxtrix);
                 Display(nbMaxtrix);
@@ -131,7 +133,15 @@ namespace GameOfLife
             {
                 for (int j = 0; j <= results.GetUpperBound(1); j++)
                 {
-                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ");
+                    if (results[i, j])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ", Console.ForegroundColor);
                 }
                 Console.WriteLine();
             }
