@@ -6,107 +6,100 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            var matrix = new bool[3, 3] { { false, true, false}, { false, false, true }, { false, true, false } };
-
-            //Display(matrix);
-
+            var matrix = new bool[5, 3] {
+                { false, true, false },
+                { false, false, true },
+                { false, true, false },
+                { false, true, false },
+                { false, true, false }
+            };
             var iteration = 3;
-
             var results = EvaluateGameOfLife(matrix, iteration);
-            //Display(results);
         }
-
-
-        private static void Display(bool[,] results)
-        {
-            for (int i = 0; i <= results.GetUpperBound(0); i++)
-            {
-                for (int j = 0; j <= results.GetUpperBound(1); j++)
-                {
-                    //Console.Write(results[i, j] + " ");
-                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
-        private static void Display(int[,] results)
-        {
-            for (int i = 0; i <= results.GetUpperBound(0); i++)
-            {
-                for (int j = 0; j <= results.GetUpperBound(1); j++)
-                {
-                    Console.Write(results[i, j] + " ");
-                    //Console.Write(results[i, j] + "(" +i+","+j+")" + " ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
 
         public static int[,] EvaluateGameOfLife(bool[,] lifeMatrix, int iteration)
         {
-            var nbMaxtrix = new int[3, 3];
+            var nbMaxtrix = new int[lifeMatrix.GetUpperBound(0) + 1, lifeMatrix.GetUpperBound(1) + 1];
+
+            int xLimit = lifeMatrix.GetUpperBound(0);
+            int yLimit = lifeMatrix.GetUpperBound(1);
 
             for (int i = 0; i < iteration; i++)
             {
-                int xLimit = lifeMatrix.GetUpperBound(0);
-                int yLimit = lifeMatrix.GetUpperBound(1);
-
 
                 for (int xctr = 0; xctr <= xLimit; xctr++)
                 {
-                    
+
                     for (int yctr = 0; yctr <= yLimit; yctr++)
                     {
-                        var aliveNeigh = 0;
+                        var aliveNb = 0;
 
-                        //Check horizontally
-                        if (xctr + 1 <= xLimit)
-                        {
-                            if (lifeMatrix[xctr + 1, yctr])
-                            {
-                                aliveNeigh++;
-                            }
-                            aliveNeigh = CheckVertically(lifeMatrix, xctr + 1, yctr, yLimit, aliveNeigh);
-                        }
-                        if (xctr != 0)
-                        {
-                            if (lifeMatrix[xctr - 1, yctr])
-                            {
-                                aliveNeigh++;
-                            }
-                            aliveNeigh = CheckVertically(lifeMatrix, xctr - 1, yctr, yLimit, aliveNeigh);
-                        }
-                            
-                            
-                        //Check vertically
+                        aliveNb = CheckVertically(lifeMatrix, xctr, yctr, xLimit, yLimit, aliveNb);
+                        aliveNb = CheckHorizontally(lifeMatrix, xctr, yctr, yLimit, aliveNb);
 
-                        if (yctr + 1 <= yLimit)
-                        {
-                            if (lifeMatrix[xctr, yctr + 1])
-                            {
-                                aliveNeigh++;
-                            }
-                        }
-                        if (yctr != 0)
-                        {
-                            if (lifeMatrix[xctr, yctr - 1])
-                            {
-                                aliveNeigh++;
-                            }
-                        }
-
-                        nbMaxtrix[xctr, yctr] = aliveNeigh;
+                        nbMaxtrix[xctr, yctr] = aliveNb;
                     }
                 }
 
                 Display(lifeMatrix);
-                Display(LifePerIteration(lifeMatrix, nbMaxtrix));
+                LifePerIteration(lifeMatrix, nbMaxtrix);
+                Display(nbMaxtrix);
             }
             return nbMaxtrix;
+        }
+
+        private static int CheckVertically(bool[,] lifeMatrix, int xctr, int yctr, int xLimit, int yLimit, int aliveNb)
+        {
+            if (xctr + 1 <= xLimit)
+            {
+                if (lifeMatrix[xctr + 1, yctr])
+                {
+                    aliveNb++;
+                }
+                aliveNb = CheckDiagonally(lifeMatrix, xctr + 1, yctr, yLimit, aliveNb);
+            }
+            if (xctr != 0)
+            {
+                if (lifeMatrix[xctr - 1, yctr])
+                {
+                    aliveNb++;
+                }
+                aliveNb = CheckDiagonally(lifeMatrix, xctr - 1, yctr, yLimit, aliveNb);
+            }
+            return aliveNb;
+        }
+
+        private static int CheckHorizontally(bool[,] lifeMatrix, int xctr, int yctr, int yLimit, int aliveNb)
+        {
+            if (yctr + 1 <= yLimit)
+            {
+                if (lifeMatrix[xctr, yctr + 1])
+                {
+                    aliveNb++;
+                }
+            }
+            if (yctr != 0)
+            {
+                if (lifeMatrix[xctr, yctr - 1])
+                {
+                    aliveNb++;
+                }
+            }
+
+            //aliveNb = (yctr + 1 <= yLimit) ?
+            //            ((lifeMatrix[xctr, yctr + 1]) ?
+            //                    aliveNb++ : aliveNb) : aliveNb;
+
+            //aliveNb = (yctr + 1 <= yLimit) ?
+            //            ((lifeMatrix[xctr, yctr + 1]) ?
+            //                    aliveNb++ : aliveNb) : aliveNb;
+
+            return aliveNb;
+        }
+
+        private static int CheckDiagonally(bool[,] lifeMatrix, int xctr, int yctr, int yLimit, int aliveNb)
+        {
+            return CheckHorizontally(lifeMatrix, xctr, yctr, yLimit, aliveNb);
         }
 
         private static int[,] LifePerIteration(bool[,] lifeMatrix, int[,] nbMaxtrix)
@@ -132,24 +125,31 @@ namespace GameOfLife
             return nbMaxtrix;
         }
 
-        private static int CheckVertically(bool[,] matrix, int xctr, int yctr, int yLimit, int aliveNeigh)
+        private static void Display(bool[,] results)
         {
-            if (yctr + 1 <= yLimit)
+            for (int i = 0; i <= results.GetUpperBound(0); i++)
             {
-                if (matrix[xctr, yctr + 1])
+                for (int j = 0; j <= results.GetUpperBound(1); j++)
                 {
-                    aliveNeigh++;
+                    Console.Write(results[i, j] + "(" + i + "," + j + ")" + " ");
                 }
+                Console.WriteLine();
             }
-            if (yctr != 0)
-            {
-                if (matrix[xctr, yctr - 1])
-                {
-                    aliveNeigh++;
-                }
-            }
-
-            return aliveNeigh;
+            Console.WriteLine();
         }
+
+        private static void Display(int[,] results)
+        {
+            for (int i = 0; i <= results.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j <= results.GetUpperBound(1); j++)
+                {
+                    Console.Write(results[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+
     }
 }
