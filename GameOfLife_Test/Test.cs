@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static ConsoleApp1.Program;
+using static ConsoleApp1.Program_withCheat;
 
 namespace GameOfLife_Test
 {
@@ -34,7 +34,7 @@ namespace GameOfLife_Test
                 matrix = inputMatrix
             };
 
-            var actualResults = Program.StartGameOfLife(gameOfLifeObj);
+            var actualResults = Program_withCheat.StartGameOfLife(gameOfLifeObj);
             var mockResult = inputMatrix;
 
             Assert(actualResults, mockResult);
@@ -59,7 +59,7 @@ namespace GameOfLife_Test
                 matrix = inputMatrix
             };
 
-            var actualResults = Program.StartGameOfLife(gameOfLifeObj);
+            var actualResults = Program_withCheat.StartGameOfLife(gameOfLifeObj);
 
             var mockResult = new int[,]
                 {
@@ -93,7 +93,7 @@ namespace GameOfLife_Test
                 matrix = inputMatrix
             };
 
-            var actualResults = Program.StartGameOfLife(gameOfLifeObj);
+            var actualResults = Program_withCheat.StartGameOfLife(gameOfLifeObj);
 
             var mockResult = new int[,]
                 {

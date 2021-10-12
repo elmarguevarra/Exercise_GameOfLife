@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{9365A0B9-B6E1-49FF-9A2C-6A1AE7D8B291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife_Raisa", "GameOfLife_Raisa\GameOfLife_Raisa.csproj", "{20A1F2AE-DB9E-48C5-AB91-37DB560DC54F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife_Raisa", "GameOfLife_Raisa\GameOfLife_Raisa.csproj", "{20A1F2AE-DB9E-48C5-AB91-37DB560DC54F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife_Test", "GameOfLife_Test\GameOfLife_Test.csproj", "{06D81542-0CB0-422B-8431-32677D0D158B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife_Raisa_Test", "GameOfLife_Test\GameOfLife_Raisa_Test.csproj", "{06D81542-0CB0-422B-8431-32677D0D158B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
