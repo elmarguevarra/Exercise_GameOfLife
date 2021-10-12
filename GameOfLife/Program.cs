@@ -54,14 +54,15 @@ namespace GameOfLife
             {
                 for (int yctr = 0; yctr <= yLimit; yctr++)
                 {
-                    if (nbMaxtrix[xctr, yctr] == 1 || nbMaxtrix[xctr, yctr] == 0 || nbMaxtrix[xctr, yctr] >= 4)
-                    {
-                        lifeMatrix[xctr, yctr] = false;
-                    }
-                    else if (nbMaxtrix[xctr, yctr] == 3)
-                    {
-                        lifeMatrix[xctr, yctr] = true;
-                    }
+                    lifeMatrix[xctr, yctr] =
+                        nbMaxtrix[xctr, yctr] == 1 || 
+                            nbMaxtrix[xctr, yctr] == 0 || 
+                                nbMaxtrix[xctr, yctr] >= 4 ? false
+                        : lifeMatrix[xctr, yctr];
+
+                    lifeMatrix[xctr, yctr] = 
+                        nbMaxtrix[xctr, yctr] == 3 ? true 
+                        : lifeMatrix[xctr, yctr];
                 }
             }
 
@@ -71,42 +72,34 @@ namespace GameOfLife
 
         private static int CheckHorizontally(bool[,] lifeMatrix, int xctr, int yctr, int xLimit, int yLimit, int aliveNeigh)
         {
-            if (xctr + 1 <= xLimit)
-            {
-                if (lifeMatrix[xctr + 1, yctr])
-                {
-                    aliveNeigh++;
-                }
-                aliveNeigh = CheckVertically(lifeMatrix, xctr + 1, yctr, yLimit, aliveNeigh);
-            }
-            if (xctr != 0)
-            {
-                if (lifeMatrix[xctr - 1, yctr])
-                {
-                    aliveNeigh++;
-                }
-                aliveNeigh = CheckVertically(lifeMatrix, xctr - 1, yctr, yLimit, aliveNeigh);
-            }
+            aliveNeigh = xctr + 1 <= xLimit ?
+                CheckHorizontalHelper(lifeMatrix, xctr + 1, yctr, xLimit, yLimit, aliveNeigh)
+                    : aliveNeigh;
+
+            aliveNeigh = xctr != 0 ?
+                CheckHorizontalHelper(lifeMatrix, xctr - 1, yctr, xLimit, yLimit, aliveNeigh)
+                    : aliveNeigh;
+
+            return aliveNeigh;
+        }
+
+        private static int CheckHorizontalHelper(bool[,] lifeMatrix, int xctr, int yctr, int xLimit, int yLimit, int aliveNeigh)
+        {
+            aliveNeigh = lifeMatrix[xctr, yctr] ? aliveNeigh + 1 : aliveNeigh;
+            aliveNeigh = CheckVertically(lifeMatrix, xctr, yctr, yLimit, aliveNeigh);
 
             return aliveNeigh;
         }
 
         private static int CheckVertically(bool[,] lifeMatrix, int xctr, int yctr, int yLimit, int aliveNeigh)
         {
-            if (yctr + 1 <= yLimit)
-            {
-                if (lifeMatrix[xctr, yctr + 1])
-                {
-                    aliveNeigh++;
-                }
-            }
-            if (yctr != 0)
-            {
-                if (lifeMatrix[xctr, yctr - 1])
-                {
-                    aliveNeigh++;
-                }
-            }
+            aliveNeigh = yctr + 1 <= yLimit ?
+                (lifeMatrix[xctr, yctr + 1] ? aliveNeigh + 1 : aliveNeigh)
+                    : aliveNeigh;
+
+            aliveNeigh = yctr != 0 ?
+                (lifeMatrix[xctr, yctr - 1] ? aliveNeigh + 1 : aliveNeigh)
+                    : aliveNeigh;
 
             return aliveNeigh;
         }
