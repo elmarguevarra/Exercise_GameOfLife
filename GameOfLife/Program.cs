@@ -7,11 +7,11 @@ namespace GameOfLife
         static void Main(string[] args)
         {
             var lifeMatrix = new bool[6, 6] {
+                { false, false, false, false, false, false },
+                { false, false, false, false, false, false },
+                { false, false, true, false, false, false },
                 { false, true, false, true, false, false },
-                { false, false, true, true, false, false },
-                { false, true, false, true, false, false },
-                { false, true, false, true, false, false },
-                { false, true, false, true, false, false },
+                { false, false, true, false, false, false },
                 { false, false, false, false, false, false }
             };
             var iteration = 11;
