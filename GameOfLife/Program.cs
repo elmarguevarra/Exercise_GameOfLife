@@ -2,7 +2,7 @@
 
 namespace GameOfLife
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -14,15 +14,17 @@ namespace GameOfLife
                 { false, false, true, false, false, false },
                 { false, false, false, false, false, false }
             };
-            var nbMaxtrix = new int[lifeMatrix.GetUpperBound(0) + 1, lifeMatrix.GetUpperBound(1) + 1];
+            
 
             var iteration = 10;
 
-            EvaluateGameOfLife(lifeMatrix, nbMaxtrix, iteration);
+            EvaluateGameOfLife(lifeMatrix, iteration);
         }
 
-        public static int[,] EvaluateGameOfLife(bool[,] lifeMatrix, int[,] nbMatrix, int iteration)
+        public static int[,] EvaluateGameOfLife(bool[,] lifeMatrix, int iteration)
         {
+            var nbMatrix = new int[lifeMatrix.GetUpperBound(0) + 1, lifeMatrix.GetUpperBound(1) + 1];
+
             int xLimit = lifeMatrix.GetUpperBound(0), yLimit = lifeMatrix.GetUpperBound(1);
 
             for (int i = 0; i <= iteration; i++)
